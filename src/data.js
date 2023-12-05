@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import Video from 'react-native-video';
 import AlbumArt from './src/components/AlbumArt';
 import Control from './src/components/Control';
@@ -12,33 +12,33 @@ export default function App() {
 
   const currentTrack = TRACKS[selectedTrack];
 
-  const onPlay = useCallback(() => {
+  const onPlay = () => {
     setPause(false);
-  }, []);
+  };
 
-  const onPause = useCallback(() => {
+  const onPause = () => {
     setPause(true);
-  }, []);
+  };
 
-  const onNext = useCallback(() => {
-    setSelectedTrack(prev => (prev === TRACKS.length - 1 ? 0 : prev + 1));
-  }, []);
+  const onNext = () => {
+    setSelectedTrack(selectedTrack === TRACKS.length - 1 ? 0 : selectedTrack + 1);
+  };
 
-  const onBack = useCallback(() => {
-    setSelectedTrack(prev => (prev === 0 ? TRACKS.length - 1 : prev - 1));
-  }, []);
+  const onBack = () => {
+    setSelectedTrack(selectedTrack === 0 ? TRACKS.length - 1 : selectedTrack - 1);
+  };
 
   return (
     <>
       <StatusBar hidden />
       <View style={styles.container}>
         <AlbumArt url={currentTrack.albumArtUrl} />
-        <View style={styles.detailsContainer}>
+        <View style={styles.controlsContainer}>
           <SongDetails
             artistName={currentTrack.artist}
             songName={currentTrack.title}
           />
-          <Control {...{ pause, onPause, onPlay, onNext, onBack }} />
+          <Control {...{pause, onPause, onPlay, onNext, onBack}} />
         </View>
         <Video
           source={{ uri: currentTrack.audioUrl }}
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#111436',
     flex: 1,
   },
-  detailsContainer: {
+  controlsContainer: {
     flexDirection: 'column',
     justifyContent: 'space-around',
     flex: 1,
